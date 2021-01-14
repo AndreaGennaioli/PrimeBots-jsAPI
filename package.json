@@ -1,0 +1,16 @@
+{
+  "name": "prime-bots.js",
+  "version": "1.0.0",
+  "description": "The official Prime Bots API for Node.js.",
+  "main": "index.js",
+  "scripts": {
+    "start": "index.js"
+  },
+  "author": "Andrea Gennaioli",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "node-fetch": "^2.6.1",
+    "socket.io-client": "^3.0.3"
+  }
+}
