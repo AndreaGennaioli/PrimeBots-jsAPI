@@ -1,6 +1,6 @@
 {
   "name": "prime-bots.js",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "The official Prime Bots API for Node.js.",
   "main": "index.js",
   "scripts": {
@@ -12,5 +12,13 @@
     "discord.js": "^12.5.1",
     "node-fetch": "^2.6.1",
     "socket.io-client": "^3.0.3"
-  }
+  },
+  "keywords": [
+    "discord",
+    "discord.js",
+    "bot",
+    "primebots",
+    "prime-bots",
+    "api"
+  ]
 }

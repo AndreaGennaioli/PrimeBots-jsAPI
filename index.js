@@ -7,6 +7,7 @@ var _client;
 var socket;
 var voteCallback;
 var readyFunction;
+const Votes = new Set();
 
 function sleep(milliseconds) {
 	return new Promise((resolve) => {
@@ -16,7 +17,7 @@ function sleep(milliseconds) {
 
 async function updateGuilds(client) {
 	_client = client;
-	fetch('https://test-primebots.tk/api/' + client.user.id + '/guilds/' + _token, {
+	fetch('https://primebots.it/api/' + client.user.id + '/guilds/' + _token, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -31,10 +32,10 @@ async function init(token, client) {
 	do {
 		await sleep(500);
 	} while (client.user == null)
-	var port = await fetch('https://test-primebots.tk/api/get/port/' + token + '/' + client.user.id).then(res => res.json());
+	var port = await fetch('https://primebots.it/api/get/port/' + token + '/' + client.user.id).then(res => res.json());
 	if (!port.port) return console.log(port);
 	port = port.port;
-	fetch('https://test-primebots.tk/api/' + client.user.id + '/guilds/' + token, {
+	fetch('https://primebots.it/api/' + client.user.id + '/guilds/' + token, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -55,7 +56,14 @@ async function init(token, client) {
 		})
 
 		socket.on('newVote', vote => {
-			voteCallback(vote);
+			if(Votes.has(vote.id)) return;
+			else {
+				Votes.add(vote.id);
+				voteCallback(vote);
+				setTimeout(() => {
+					Votes.delete(vote.id);
+				}, 10000)
+			}
 		});
 	});
 	client.on('guildCreate', (g) => {
@@ -107,8 +115,7 @@ module.exports = class PrimeBot {
 		do {
 			await sleep(500);
 		} while (_client.user == null)
-		let response = await fetch('https://test-primebots.tk/api/' + _client.user.id + '/vote/' + userId + '/' + _token).then((res) => res.json());
-		console.log(response)
+		let response = await fetch('https://primebots.it/api/' + _client.user.id + '/vote/' + userId + '/' + _token).then((res) => res.json());
 		if (response.hasVoted == true)
 			return true;
 		else
@@ -123,6 +130,6 @@ module.exports = class PrimeBot {
 		do {
 			await sleep(500);
 		} while (_client.user == null)
-		return await fetch('https://test-primebots.tk/api/' + _client.user.id + '/votes/' + _token).then((res) => res.json()).then(response => response.votes);
+		return await fetch('https://primebots.it/api/' + _client.user.id + '/votes/' + _token).then((res) => res.json()).then(response => response.votes);
 	};
 }
