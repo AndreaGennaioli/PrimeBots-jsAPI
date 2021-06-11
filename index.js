@@ -56,6 +56,8 @@ async function init(token, client) {
 		})
 
 		socket.on('newVote', vote => {
+			if(!voteCallback) return;
+			if(typeof voteCallback != 'function') return;
 			if(Votes.has(vote.id)) return;
 			else {
 				Votes.add(vote.id);
